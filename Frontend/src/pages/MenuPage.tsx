@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Item } from './models/Item'
+import { Item } from '../models/Item.ts'
 
-const MenuPage = () => {
+export const MenuPage = () => {
   const [items, setItems] = useState<Item[]>([])
 
 //fake data
