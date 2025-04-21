@@ -13,7 +13,7 @@ export const MenuPage = () => {
     ]
     mockItems[0].ingredients = ['cheese', 'tomato sauce', 'dough']
     mockItems[1].ingredients = ['beef', 'lettuce', 'tomato', 'bun']
-    mockItems[2].ingredients = ['pasta', 'cream', 'cheese']
+    mockItems[2].ingredients = ['pasta', 'cream', 'cheese', 'bacon']
     setItems(mockItems)
   }, [])
 
