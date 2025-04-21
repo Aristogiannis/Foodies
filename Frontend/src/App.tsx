@@ -3,6 +3,8 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { Routes, Route, Link } from 'react-router-dom'
+import { MenuPage } from './pages/MenuPage'
+//import { OrderSummaryPage } from './pages/OrderSummaryPage'
 
 const Home = () => {
   const [count, setCount] = useState(0)
@@ -57,10 +59,12 @@ function App() {
       <li>
         <Link to="/contact">Contact</Link>
       </li>
+      <li><Link to="/menu">Menu</Link></li>
     </ul>
   </nav>
 
   <Routes>
+    <Route path="/menu" element={<MenuPage />} />
     <Route path="/" element={<Home />} />
     <Route path="/about" element={<About />} />
     <Route path="/contact" element={contact()} />
