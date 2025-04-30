@@ -1,21 +1,29 @@
 import { useNavigate } from 'react-router-dom';
-//import './HomePage.css';
+import '../services/homePage.css';
 
 export default function HomePage() {
   const navigate = useNavigate();
 
-return (
-    <div className="home-page">
-        <header>
-            <h1 className="title">Welcome to FOODIES!</h1>
+  return (
+    <div className="page-wrapper">
+      <header className="header">
+        <div className="title">
+          Welcome to <span className="highlight">FOODIES</span> !
+        </div>
+        <button className="profile-btn" onClick={() => navigate('/profile')}>
+          Profile
+        </button>
       </header>
-      <button className="profile-button" onClick={() => navigate('/profile')}>Profile</button>
-      <main className="main-buttons">
-          <button onClick={() => navigate('/menu')}>Scan QR to Order</button>
+
+      <main className="main-section">
+        <div className="main-buttons">
+          <button onClick={() => navigate('/menu')}>Scan table QR to Order</button>
+          <button onClick={() => alert('Business QR functionality coming soon')}>
+            Create QR for business
+          </button>
+        </div>
+        <p className="footer-text">FOOD GRAPHICS PLACEHOLDER...</p>
       </main>
-      <footer>
-          <p className="graphics-placeholder">Food Graphics...</p>
-      </footer>
-  </div>
-);
+    </div>
+  );
 }
