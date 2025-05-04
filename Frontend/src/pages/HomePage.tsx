@@ -10,8 +10,8 @@ export default function HomePage() {
         <div className="title">
           Welcome to <span className="highlight">FOODIES</span> !
         </div>
-        <button className="profile-btn" onClick={() => navigate('/profile')}>
-          Profile
+        <button className="loginsignup-btn" onClick={() => navigate('/loginsignup')}>
+          Login/Sign up
         </button>
       </header>
 

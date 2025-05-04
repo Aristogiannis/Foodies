@@ -9,7 +9,7 @@ html, body, #root {
 .page-wrapper {
   min-height: 100%;
   align-items: center;
-  background-color: #3e3636;
+  background-color: #181616;
 }
 
 /* Top Header */
@@ -34,8 +34,8 @@ html, body, #root {
   font-style: italic; 
 }
 
-/* Profile Button */
-.profile-btn {
+
+.loginsignup-btn {
   margin-top: 1.5rem;
   padding: 0.5rem 1.2rem;
   border: 2px solid #fff;
@@ -47,9 +47,9 @@ html, body, #root {
   cursor: pointer;
 }
 
-.profile-btn:hover {
+.loginsignup-btn:hover {
   
-  background-color: #fff;
+  background-color:  #f7941d;
   color: #1c1c1c;
 }
 
@@ -62,7 +62,7 @@ html, body, #root {
   align-items: center;
   justify-content: center;
   
-  background-color: #181616;
+  background-color: #3e3636;
   
 }
 
@@ -90,7 +90,7 @@ html, body, #root {
 }
 
 .main-buttons button:hover {
-  background-color: #2c2828;
+  background-color:#181616;
   color: #f7941d;
   font-weight: 900;
   transition: 0.3s ease-in-out;
