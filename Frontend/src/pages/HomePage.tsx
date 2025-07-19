@@ -18,9 +18,7 @@ export default function HomePage() {
       <main className="main-section">
         <div className="main-buttons">
           <button onClick={() => navigate('/menu')}>Scan table QR to Order</button>
-          <button onClick={() => alert('Business QR functionality coming soon')}>
-            Create QR for business
-          </button>
+          <button onClick={() => navigate('/CreateQrForBussiness')}>Create QR for business</button>
         </div>
         <p className="footer-text">FOOD GRAPHICS PLACEHOLDER...</p>
       </main>

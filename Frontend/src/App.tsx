@@ -8,7 +8,7 @@ import Contact from './pages/Contact'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 //import { OrderSummaryPage } from './pages/OrderSummaryPage'
-
+import CreateQrForBussiness from './pages/CreateQrForBussiness'
 
 
 
@@ -16,12 +16,15 @@ function App() {
  return (
   <Routes>
     <Route path="/" element={<HomePage />} />
+    <Route path="/CreateQrForBussiness" element={<CreateQrForBussiness />} />
     <Route path="/menu" element={<MenuPage />} />
     <Route path="/loginsignup" element={<LoginSignup />} />
     <Route path="/loginsignup/about" element={<About />} />
     <Route path="/loginsignup/contact" element={<Contact />} />
     <Route path="/loginsignup/login" element={<Login />} />
     <Route path="/loginsignup/signup" element={<Signup />} />
+    
+    
 
   </Routes>
 )
