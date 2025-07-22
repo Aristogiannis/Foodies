@@ -19,6 +19,7 @@ export default function HomePage() {
         <div className="main-buttons">
           <button onClick={() => navigate('/menu')}>Scan table QR to Order</button>
           <button onClick={() => navigate('/CreateQrForBussiness')}>Create QR for business</button>
+          <button onClick={() => navigate('/menu-entry')}>Manage Menu Items</button>
         </div>
         <p className="footer-text">FOOD GRAPHICS PLACEHOLDER...</p>
       </main>

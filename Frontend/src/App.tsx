@@ -9,6 +9,7 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 //import { OrderSummaryPage } from './pages/OrderSummaryPage'
 import CreateQrForBussiness from './pages/CreateQrForBussiness'
+import MenuDataEntry from './pages/MenuDataEntry'
 
 
 
@@ -18,6 +19,7 @@ function App() {
     <Route path="/" element={<HomePage />} />
     <Route path="/CreateQrForBussiness" element={<CreateQrForBussiness />} />
     <Route path="/menu" element={<MenuPage />} />
+    <Route path="/menu-entry" element={<MenuDataEntry />} />
     <Route path="/loginsignup" element={<LoginSignup />} />
     <Route path="/loginsignup/about" element={<About />} />
     <Route path="/loginsignup/contact" element={<Contact />} />
