@@ -7,7 +7,6 @@ export default function Contact() {
   return (
     <div className="tabs-container">
       <header className="header1">
-        <h1>Contact Us</h1>
         <h2>📞</h2>
       </header>
       

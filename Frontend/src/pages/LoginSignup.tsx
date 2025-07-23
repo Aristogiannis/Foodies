@@ -7,7 +7,6 @@ export default function LoginSignup() {
   return (
     <div className="loginsignup-container">
       <header className="header1">
-        <h1>Login/sign up</h1>
         <h2>👤</h2>
       </header>
       <nav className="loginsignup-nav">
@@ -26,7 +25,7 @@ export default function LoginSignup() {
         
       </nav>
       <button className="back-button1" onClick={() => navigate('/')}>
-          &lt; Back
+        Back
         </button>
     </div>
   );

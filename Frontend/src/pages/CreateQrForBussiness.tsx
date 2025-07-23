@@ -4,6 +4,7 @@ import '../services/CreateQrForBussiness.css';
 export default function CreateQrForBussiness() {
   const navigate = useNavigate();
 
+  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle QR creation logic here
@@ -12,10 +13,7 @@ export default function CreateQrForBussiness() {
 
   return (
     <div className="qr-container">
-      <header className="header1">
-        <h1>Create QR for Business</h1>
-      </header>
-      
+
       <div className="qr-content">
         <h2>Generate QR Codes</h2>
         <p>Create QR codes for your restaurant tables to enable digital menu ordering.</p>

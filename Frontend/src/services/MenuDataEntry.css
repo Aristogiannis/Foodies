@@ -1,4 +1,3 @@
-/* Reset and base styles */
 html, body, #root {
   height: 100%;
   width: 100%;
@@ -6,78 +5,26 @@ html, body, #root {
   padding: 0;
 }
 
+
 .menu-entry-container {
-  min-height: 100vh;
-  background: linear-gradient(135deg, var(--primary-white) 0%, var(--secondary-white) 100%);
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  position: relative;
-  overflow: hidden;
+  
+  padding-top: 50px;
 }
 
-/* Background decoration */
-.menu-entry-container::before {
-  content: '';
-  position: absolute;
-  top: -20%;
-  right: -10%;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(255, 107, 53, 0.08) 0%, transparent 70%);
-  border-radius: 50%;
-  z-index: 0;
-}
-
-.menu-entry-container::after {
-  content: '';
-  position: absolute;
-  bottom: -15%;
-  left: -8%;
-  width: 250px;
-  height: 250px;
-  background: radial-gradient(circle, rgba(255, 107, 53, 0.05) 0%, transparent 70%);
-  border-radius: 50%;
-  z-index: 0;
-}
-
-/* Modern Header */
-.header1 {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--spacing-lg) var(--spacing-xl);
-  background: var(--primary-white);
-  box-shadow: var(--shadow-sm);
-  border-bottom: 1px solid var(--border-light);
-  position: relative;
-  z-index: 1;
-}
-
-.header1 h1 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--primary-black);
-  margin: 0;
-  background: linear-gradient(135deg, var(--primary-orange), var(--primary-orange-hover));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Menu Entry Content Section */
 .menu-entry-content {
-  flex: 1;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   padding: var(--spacing-2xl) var(--spacing-xl);
   text-align: center;
-  position: relative;
-  z-index: 1;
   max-width: 800px;
   margin: 0 auto;
-  width: 100%;
 }
 
 .menu-entry-content h2 {
@@ -86,7 +33,6 @@ html, body, #root {
   color: var(--primary-black);
   margin-bottom: var(--spacing-md);
 }
-
 .menu-entry-content p {
   font-size: 1.1rem;
   color: var(--text-dark);
@@ -94,7 +40,6 @@ html, body, #root {
   line-height: 1.6;
 }
 
-/* Menu Entry Form */
 .menu-entry-form {
   display: flex;
   flex-direction: column;
@@ -107,23 +52,20 @@ html, body, #root {
   border: 1px solid var(--border-light);
   width: 100%;
   max-width: 600px;
-}
 
+}
 .menu-entry-form .form-group {
   width: 100%;
   text-align: left;
 }
-
 .menu-entry-form .form-row {
   display: flex;
   gap: var(--spacing-lg);
   width: 100%;
 }
-
 .menu-entry-form .form-row .form-group {
   flex: 1;
 }
-
 .menu-entry-form label {
   display: block;
   font-weight: 600;
@@ -131,7 +73,6 @@ html, body, #root {
   margin-bottom: var(--spacing-sm);
   font-size: 0.95rem;
 }
-
 .menu-entry-form input,
 .menu-entry-form textarea,
 .menu-entry-form select {
@@ -147,7 +88,6 @@ html, body, #root {
   margin-bottom: var(--spacing-md);
   box-sizing: border-box;
 }
-
 .menu-entry-form input:focus,
 .menu-entry-form textarea:focus,
 .menu-entry-form select:focus {
@@ -155,17 +95,14 @@ html, body, #root {
   border-color: var(--primary-orange);
   box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
 }
-
 .menu-entry-form input::placeholder,
 .menu-entry-form textarea::placeholder {
   color: var(--text-light);
 }
-
 .menu-entry-form textarea {
   resize: vertical;
   min-height: 100px;
 }
-
 .menu-entry-form select {
   cursor: pointer;
 }
@@ -175,12 +112,10 @@ html, body, #root {
   position: relative;
   cursor: pointer;
 }
-
 .file-input::-webkit-file-upload-button {
   visibility: hidden;
   width: 0;
 }
-
 .file-input::before {
   content: 'Choose Photo';
   display: inline-block;
@@ -194,17 +129,15 @@ html, body, #root {
   margin-right: var(--spacing-sm);
   transition: all var(--transition-normal);
 }
-
 .file-input:hover::before {
   background: var(--primary-orange-hover);
 }
 
 /* Photo Preview */
 .photo-preview {
-  margin-top: var(--spacing-md);
+
   text-align: center;
 }
-
 .photo-preview img {
   max-width: 200px;
   max-height: 200px;
@@ -213,20 +146,6 @@ html, body, #root {
   margin-bottom: var(--spacing-sm);
 }
 
-.remove-photo {
-  background: var(--text-light);
-  color: var(--primary-white);
-  border: none;
-  border-radius: var(--radius-sm);
-  padding: var(--spacing-sm) var(--spacing-md);
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: all var(--transition-normal);
-}
-
-.remove-photo:hover {
-  background: #dc3545;
-}
 
 /* Form Actions */
 .form-actions {
@@ -235,7 +154,6 @@ html, body, #root {
   width: 100%;
   margin-top: var(--spacing-lg);
 }
-
 .reset-button,
 .submit-button {
   flex: 1;
@@ -247,29 +165,24 @@ html, body, #root {
   transition: all var(--transition-normal);
   border: none;
 }
-
 .reset-button {
   background: var(--text-light);
   color: var(--primary-white);
 }
-
 .reset-button:hover {
   background: #6c757d;
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
-
 .submit-button {
   background: var(--primary-orange);
   color: var(--primary-white);
 }
-
 .submit-button:hover {
   background: var(--primary-orange-hover);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
-
 .reset-button:active,
 .submit-button:active {
   transform: translateY(0);
@@ -295,13 +208,11 @@ html, body, #root {
   align-items: center;
   gap: var(--spacing-sm);
 }
-
 .back-button::before {
   content: '←';
   font-size: 1.1rem;
   font-weight: bold;
 }
-
 .back-button:hover {
   border-color: var(--primary-orange);
   background: var(--primary-orange);
@@ -309,46 +220,26 @@ html, body, #root {
   transform: translateX(-3px);
   box-shadow: var(--shadow-md);
 }
-
 .back-button:active {
   transform: translateX(-1px);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .header1 {
-    padding: var(--spacing-md) var(--spacing-lg);
-  }
-  
-  .header1 h1 {
-    font-size: 1.5rem;
-  }
-  
   .menu-entry-content {
     padding: var(--spacing-xl) var(--spacing-lg);
   }
-  
-  .menu-entry-content h2 {
-    font-size: 1.5rem;
-  }
-  
   .menu-entry-content p {
     font-size: 1rem;
   }
-  
   .menu-entry-form {
     padding: var(--spacing-xl);
   }
-  
-  .menu-entry-form .form-row {
+  .menu-entry-form .form-row,
+  .form-actions {
     flex-direction: column;
     gap: 0;
   }
-  
-  .form-actions {
-    flex-direction: column;
-  }
-  
   .back-button {
     top: var(--spacing-md);
     left: var(--spacing-md);
@@ -356,16 +247,11 @@ html, body, #root {
     font-size: 0.9rem;
   }
 }
-
 @media (max-width: 480px) {
-  .menu-entry-content {
-    padding: var(--spacing-lg);
-  }
-  
+  .menu-entry-content,
   .menu-entry-form {
     padding: var(--spacing-lg);
   }
-  
   .back-button {
     position: relative;
     top: auto;
@@ -373,9 +259,8 @@ html, body, #root {
     align-self: flex-start;
     margin: var(--spacing-md);
   }
-  
   .photo-preview img {
     max-width: 150px;
     max-height: 150px;
   }
-} 
+}

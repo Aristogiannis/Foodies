@@ -13,7 +13,6 @@ export default function Login() {
   return (
     <div className="tabs-container">
       <header className="header1">
-        <h1>Login</h1>
         <h2>🔐</h2>
       </header>
       

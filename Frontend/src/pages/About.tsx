@@ -7,7 +7,6 @@ export default function About() {
   return (
     <div className="tabs-container">
       <header className="header1">
-        <h1>About Us</h1>
         <h2>🍽️</h2>
       </header>
       

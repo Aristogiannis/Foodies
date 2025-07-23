@@ -55,22 +55,36 @@ export default function MenuDataEntry() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+      console.log("Form submitted", menuItem);
     // Validate form
-    if (!menuItem.name || !menuItem.description || menuItem.price <= 0 || !menuItem.category) {
-      alert('Please fill in all required fields');
-      return;
+  if (!menuItem.name || !menuItem.description || !menuItem.price || Number(menuItem.price) <= 0 || !menuItem.category) {
+  alert('Please fill in all required fields');
+  return;
+}
+
+    const formData = new FormData();
+    formData.append('name',menuItem.name);
+    formData.append('description',menuItem.description);
+    formData.append('price', menuItem.price.toString());
+    formData.append('category', menuItem.category);
+    if (menuItem.photo) {
+      formData.append('photo', menuItem.photo);
     }
 
-    // Here you would typically send the data to your backend
-    console.log('Menu item to be added:', menuItem);
-    
-    // For now, just show success message
-    alert('Menu item added successfully!');
-    
-    // Reset form
+    // Try to send the data to the backend
+    try{
+      //send to backend
+      const response = await fetch('http://localhost:3001/menu-items', {
+        method: 'POST',
+        body: formData
+      });
+      if(response.ok){
+        const data = await response.json();
+        
+        alert('Menu item added successfully!');
+            // Reset form
     setMenuItem({
       name: '',
       description: '',
@@ -79,9 +93,16 @@ export default function MenuDataEntry() {
       photo: null
     });
     setPreviewUrl('');
+  }else{
+        throw new Error('Failed to add menu item');
+      }
+    }catch(error){
+        console.error('Error adding menu item:', error);
+        alert('There was an error adding the menu item. Please try again.');
+      }
   };
 
-  const handleReset = () => {
+const handleReset = () => {
     setMenuItem({
       name: '',
       description: '',
@@ -94,10 +115,7 @@ export default function MenuDataEntry() {
 
   return (
     <div className="menu-entry-container">
-      <header className="header1">
-        <h1>Menu Data Entry Dashboard</h1>
-      </header>
-      
+    
       <div className="menu-entry-content">
         <h2>Add New Menu Item</h2>
         <p>Fill out the form below to add a new item to your restaurant's menu.</p>
@@ -177,16 +195,6 @@ export default function MenuDataEntry() {
             {previewUrl && (
               <div className="photo-preview">
                 <img src={previewUrl} alt="Preview" />
-                <button 
-                  type="button" 
-                  className="remove-photo"
-                  onClick={() => {
-                    setMenuItem(prev => ({ ...prev, photo: null }));
-                    setPreviewUrl('');
-                  }}
-                >
-                  Remove Photo
-                </button>
               </div>
             )}
           </div>
@@ -207,4 +215,5 @@ export default function MenuDataEntry() {
       </button>
     </div>
   );
-} 
+  }
+
