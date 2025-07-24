@@ -14,6 +14,7 @@ export const MenuPage = () => {
       new Item(4, 'Caesar Salad', 'Fresh romaine lettuce with parmesan cheese, croutons, and caesar dressing', 8.99, 'salad.jpg', 'Appetizer'),
       new Item(5, 'Chocolate Cake', 'Rich chocolate layer cake with chocolate ganache frosting', 6.99, 'cake.jpg', 'Dessert'),
       new Item(6, 'Iced Latte', 'Smooth espresso with cold milk and ice', 4.99, 'latte.jpg', 'Beverage'),
+      new Item(7, 'Icod Latte', 'Smooth espresso with cold milk and ice', 4.99, 'latte.jpg', 'Beverage')
     ]
     mockItems[0].ingredients = ['Fresh mozzarella', 'Tomato sauce', 'Basil', 'Pizza dough']
     mockItems[1].ingredients = ['Beef patty', 'Lettuce', 'Tomato', 'Cheese', 'Bun', 'Special sauce']
