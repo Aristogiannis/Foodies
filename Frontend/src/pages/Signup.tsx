@@ -1,13 +1,51 @@
 import { useNavigate } from 'react-router-dom';
 import '../services/tabs.css';
+import { useState } from 'react';
+
+interface SignupProps {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 export default function Signup() {
   const navigate = useNavigate();
   
-  const handleSubmit = (e: React.FormEvent) => {
+const [SignupProps, setSignupProps] = useState<SignupProps>({
+  username: '',
+  email: '',
+  password: '',
+  confirmPassword: ''
+});
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle signup logic here
-    console.log('Signup submitted');
+    try{
+      const response = await fetch('/api/signup',{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username : SignupProps.username,
+          email : SignupProps.email,
+          password : SignupProps.password,
+          confirmPassword : SignupProps.confirmPassword
+        })
+      });
+   
+    if(response.ok){
+      const data = await response.json();
+      console.log('Signup submitted');
+      navigate('/loginsignup/login');
+    }else{
+      alert('Signup failed. Please check your details.');
+    }
+  }catch(error) {
+      console.error('Signup error', error);
+    }
+
   };
   
   return (
@@ -28,6 +66,8 @@ export default function Signup() {
             name="username" 
             placeholder="Choose a username"
             required 
+            value = {SignupProps.username}
+            onChange ={(e) => setSignupProps({ ...SignupProps, username: e.target.value })}
           />
           
           <label htmlFor="email">Email</label>
@@ -37,6 +77,8 @@ export default function Signup() {
             name="email" 
             placeholder="Enter your email"
             required 
+            value ={SignupProps.email}
+            onChange = {(e) => setSignupProps({...SignupProps,email:e.target.value})}
           />
           
           <label htmlFor="password">Password</label>
@@ -46,6 +88,8 @@ export default function Signup() {
             name="password" 
             placeholder="Create a password"
             required 
+             value ={SignupProps.password}
+            onChange = {(e) => setSignupProps({...SignupProps,password:e.target.value})}
           />
           
           <label htmlFor="confirm-password">Confirm Password</label>
@@ -55,6 +99,8 @@ export default function Signup() {
             name="confirm-password" 
             placeholder="Confirm your password"
             required 
+             value ={SignupProps.confirmPassword}
+            onChange = {(e) => setSignupProps({...SignupProps,confirmPassword:e.target.value})}
           />
           
           <button type="submit" style={{ width: '100%', marginTop: 'var(--spacing-lg)' }}>

@@ -1,13 +1,47 @@
 import { useNavigate } from 'react-router-dom';
 import '../services/tabs.css';
+import { useState } from 'react';
+
+interface LoginProps {
+  email: string;
+  password: string;
+}
+
+
 
 export default function Login() {
   const navigate = useNavigate();
   
-  const handleSubmit = (e: React.FormEvent) => {
+const [LoginProps,  setLoginProps] = useState<LoginProps>({
+  email: '',
+  password: ''
+});
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Handle login logic here
+    try{
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email: LoginProps.email, password: LoginProps.password })
+    });
+
+    if(response.ok) {
+      const data = await response.json();
     console.log('Login submitted');
+     localStorage.setItem('isLoggedIn', 'true');
+      navigate('/');
+
+      }else{
+
+         alert('Login failed. Please check your credentials.');
+      }
+  } catch (error) {
+    console.error('login error',error);
+  }
   };
   
   return (
@@ -28,6 +62,9 @@ export default function Login() {
             name="email" 
             placeholder="Enter your email"
             required 
+            value={LoginProps.email}
+            onChange={(e) => setLoginProps({ ...LoginProps, email: e.target.value })}
+          
           />
           
           <label htmlFor="password">Password</label>
@@ -37,11 +74,13 @@ export default function Login() {
             name="password" 
             placeholder="Enter your password"
             required 
+            value={LoginProps.password}
+            onChange={ (e) => setLoginProps({ ...LoginProps, password: e.target.value }) }
           />
           
           <button type="submit" style={{ width: '100%', marginTop: 'var(--spacing-lg)' }}>
             Sign In
-          </button>
+          </button> 
         </form>
         
         <p style={{ marginTop: 'var(--spacing-lg)', textAlign: 'center' }}>
