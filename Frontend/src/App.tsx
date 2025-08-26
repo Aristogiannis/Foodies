@@ -1,18 +1,19 @@
 // App.tsx
 import './App.css';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import HomePage from './pages/HomePage';
+import Layout from './components/Layout';
 import {MenuPage} from './pages/MenuPage';
 import LoginSignup from './pages/LoginSignup';
-import About from './pages/About';
-import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import CreateQrForBussiness from './pages/CreateQrForBussiness';
 import MenuDataEntry from './pages/MenuDataEntry';
+import CustomerOrderPage from './pages/CustomerOrderPage';
+import QRCodeManagementPage from './pages/QRCodeManagementPage';
+import OrderTrackingPage from './pages/OrderTrackingPage';
+import { SnackbarProvider } from './components/SnackbarContext';
 import { JSX } from 'react';
 
-// Συνάρτηση που ελέγχει αν ο χρήστης είναι logged in
 const isLoggedIn = () => localStorage.getItem('isLoggedIn') === 'true';
 
 // Route που προστατεύει ιδιωτικές σελίδες
@@ -25,77 +26,88 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) =>
 const PublicRoute = ({ children }: { children: JSX.Element }) =>
   !isLoggedIn()
     ? children
-    : <Navigate to="/" replace />;
+    : <Navigate to="/order-tracking" replace />;
 
 function App() {
   return (
-    <Routes>
-      {/* Home είναι προσβάσιμο από όλους */}
-      <Route path="/" element={<HomePage />} />
+    <SnackbarProvider>
+      <Routes>
+        {/* Redirect home to order tracking for logged in users */}
+        <Route 
+          path="/" 
+          element={
+            isLoggedIn() ? (
+              <Navigate to="/order-tracking" replace />
+            ) : (
+              <Navigate to="/loginsignup/login" replace />
+            )
+          } 
+        />
 
-      {/* Ιδιωτικές σελίδες: Create QR & Menu Entry */}
-      <Route
-        path="/CreateQrForBussiness"
-        element={
+        {/* Pages with Layout (Main App) */}
+        <Route path="/order-tracking" element={
           <PrivateRoute>
-            <CreateQrForBussiness />
+            <Layout>
+              <OrderTrackingPage />
+            </Layout>
           </PrivateRoute>
-        }
-      />
-      <Route
-        path="/menu-entry"
-        element={
+        } />
+        
+        <Route path="/qr-management" element={
           <PrivateRoute>
-            <MenuDataEntry />
+            <Layout>
+              <QRCodeManagementPage />
+            </Layout>
           </PrivateRoute>
-        }
-      />
+        } />
+        
+        <Route path="/menu-entry" element={
+          <PrivateRoute>
+            <Layout>
+              <MenuDataEntry />
+            </Layout>
+          </PrivateRoute>
+        } />
+        
+        <Route path="/CreateQrForBussiness" element={
+          <PrivateRoute>
+            <Layout>
+              <CreateQrForBussiness />
+            </Layout>
+          </PrivateRoute>
+        } />
 
-      {/* Δημόσια σελίδα menu (scan QR) */}
-      <Route path="/menu" element={<MenuPage />} />
-
-      {/* Login/Signup & επακόλουθες σελίδες, μόνο για μη-συνδεδεμένους */}
-      <Route
-        path="/loginsignup"
-        element={
+        <Route path="/menu" element={
+          <Layout>
+            <MenuPage />
+          </Layout>
+        } />
+        
+        <Route path="/order" element={
+          <Layout>
+            <CustomerOrderPage />
+          </Layout>
+        } />
+        {/* Auth pages without Layout */}
+        <Route path="/loginsignup" element={
           <PublicRoute>
             <LoginSignup />
           </PublicRoute>
-        }
-      />
-      <Route
-        path="/loginsignup/about"
-        element={
-          <PublicRoute>
-            <About />
-          </PublicRoute>
-        }
-      />
-      <Route
-        path="/loginsignup/contact"
-        element={
-          <PublicRoute>
-            <Contact />
-          </PublicRoute>
-        }
-      />
-      <Route
-        path="/loginsignup/login"
-        element={
+        } />
+        
+        <Route path="/loginsignup/login" element={
           <PublicRoute>
             <Login />
           </PublicRoute>
-        }
-      />
-      <Route
-        path="/loginsignup/signup"
-        element={
+        } />
+        
+        <Route path="/loginsignup/signup" element={
           <PublicRoute>
             <Signup />
           </PublicRoute>
-        }
-      />
-    </Routes>
+        } />
+      </Routes>
+    </SnackbarProvider>
   );
 }
 

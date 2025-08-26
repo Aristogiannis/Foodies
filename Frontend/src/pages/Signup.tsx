@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import '../services/tabs.css';
 import { useState } from 'react';
+import { useSnackbar } from '../components/SnackbarContext';
 
 interface SignupProps {
   username: string;
@@ -11,6 +12,7 @@ interface SignupProps {
 
 export default function Signup() {
   const navigate = useNavigate();
+  const { showSuccess, showError, showWarning } = useSnackbar();
   
 const [SignupProps, setSignupProps] = useState<SignupProps>({
   username: '',
@@ -21,31 +23,41 @@ const [SignupProps, setSignupProps] = useState<SignupProps>({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try{
-      const response = await fetch('/api/signup',{
+    
+    // Validate password confirmation
+    if (SignupProps.password !== SignupProps.confirmPassword) {
+      showWarning('Passwords do not match');
+      return;
+    }
+    
+    try {
+      const response = await fetch('http://localhost:8080/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          username : SignupProps.username,
-          email : SignupProps.email,
-          password : SignupProps.password,
-          confirmPassword : SignupProps.confirmPassword
+          username: SignupProps.username,
+          email: SignupProps.email,
+          password: SignupProps.password,
+          confirmPassword: SignupProps.confirmPassword
         })
       });
    
-    if(response.ok){
-      const data = await response.json();
-      console.log('Signup submitted');
-      navigate('/loginsignup/login');
-    }else{
-      alert('Signup failed. Please check your details.');
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Signup successful:', data.user);
+        showSuccess('Account created successfully! Please log in.');
+        navigate('/loginsignup/login');
+      } else {
+        const errorText = await response.text();
+        showError('Signup failed. Please check your details.');
+        console.error('Signup failed:', errorText);
+      }
+    } catch (error) {
+      console.error('Signup error:', error);
+      showError('Network error. Please try again.');
     }
-  }catch(error) {
-      console.error('Signup error', error);
-    }
-
   };
   
   return (

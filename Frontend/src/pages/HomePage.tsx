@@ -1,6 +1,7 @@
 // HomePage.tsx
 import { useNavigate } from 'react-router-dom';
-import '../services/homePage.css';
+import '../services/HomePage.css';
+import { PlateIcon, MobileIcon, ChartIcon, CameraIcon, PlusIcon, BuildingIcon } from '../components/Icons';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -34,31 +35,39 @@ export default function HomePage() {
 
       <main className="main-section">
         <div className="main-buttons">
+          <button onClick={() => navigate('/order?table=1')}>
+            <PlateIcon size={20} /> Customer Order (Demo)
+          </button>
+
           <button onClick={() => navigate('/menu')}>
-            Scan table QR to Order
+            <MobileIcon size={20} /> View Menu
           </button>
 
-          <button
-            onClick={() =>
-              loggedIn
-                ? navigate('/CreateQrForBussiness')
-                : navigate('/loginsignup/login')
-            }
-          >
-            Create QR (for business)
-          </button>
+          {loggedIn && (
+            <>
+              <button onClick={() => navigate('/order-tracking')}>
+                <ChartIcon size={20} /> Order Tracking
+              </button>
 
-          <button
-            onClick={() =>
-              loggedIn
-                ? navigate('/menu-entry')
-                : navigate('/loginsignup/login')
-            }
-          >
-            Add to Menu (for business)
-          </button>
+              <button onClick={() => navigate('/qr-management')}>
+                <CameraIcon size={20} /> QR Code Management
+              </button>
+
+              <button onClick={() => navigate('/menu-entry')}>
+                <PlusIcon size={20} /> Add Menu Items
+              </button>
+            </>
+          )}
+
+          {!loggedIn && (
+            <button onClick={() => navigate('/CreateQrForBussiness')}>
+              <BuildingIcon size={20} /> Business Features (Login Required)
+            </button>
+          )}
         </div>
-        <p className="footer-text">FOOD GRAPHICS PLACEHOLDER...</p>
+        <p className="footer-text">
+          {loggedIn ? 'Welcome back! Manage your restaurant from the dashboard above.' : 'Login to access business management features.'}
+        </p>
       </main>
     </div>
   );

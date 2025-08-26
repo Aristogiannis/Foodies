@@ -4,52 +4,96 @@ import '../services/menuService.css'
 
 export const MenuPage = () => {
   const [items, setItems] = useState<Item[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  //fake data
   useEffect(() => {
-    const mockItems: Item[] = [
-      new Item(1, 'Margherita Pizza', 'Classic Italian pizza with fresh mozzarella, tomato sauce, and basil', 12.99, 'pizza.jpg', 'Main Course'),
-      new Item(2, 'Classic Burger', 'Juicy beef patty with lettuce, tomato, cheese, and special sauce', 9.99, 'burger.jpg', 'Main Course'),
-      new Item(3, 'Creamy Alfredo Pasta', 'Fettuccine pasta in rich cream sauce with parmesan cheese', 11.99, 'pasta.jpg', 'Main Course'),
-      new Item(4, 'Caesar Salad', 'Fresh romaine lettuce with parmesan cheese, croutons, and caesar dressing', 8.99, 'salad.jpg', 'Appetizer'),
-      new Item(5, 'Chocolate Cake', 'Rich chocolate layer cake with chocolate ganache frosting', 6.99, 'cake.jpg', 'Dessert'),
-      new Item(6, 'Iced Latte', 'Smooth espresso with cold milk and ice', 4.99, 'latte.jpg', 'Beverage'),
-      new Item(7, 'Icod Latte', 'Smooth espresso with cold milk and ice', 4.99, 'latte.jpg', 'Beverage')
-    ]
-    mockItems[0].ingredients = ['Fresh mozzarella', 'Tomato sauce', 'Basil', 'Pizza dough']
-    mockItems[1].ingredients = ['Beef patty', 'Lettuce', 'Tomato', 'Cheese', 'Bun', 'Special sauce']
-    mockItems[2].ingredients = ['Fettuccine pasta', 'Heavy cream', 'Parmesan cheese', 'Butter', 'Garlic']
-    mockItems[3].ingredients = ['Romaine lettuce', 'Parmesan cheese', 'Croutons', 'Caesar dressing']
-    mockItems[4].ingredients = ['Chocolate cake', 'Chocolate ganache', 'Cocoa powder', 'Vanilla']
-    mockItems[5].ingredients = ['Espresso', 'Cold milk', 'Ice']
-    setItems(mockItems)
+    const fetchMenuItems = async () => {
+      try {
+        setLoading(true)
+        const response = await fetch('http://localhost:8080/api/menu-items?available=true')
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch menu items')
+        }
+        
+        const data = await response.json()
+        
+        // Convert backend response to frontend Item model
+        const menuItems = data.map((item: any) => new Item(
+          item.id,
+          item.name,
+          item.description,
+          item.price,
+          item.imageUrl || 'placeholder.jpg',
+          item.category,
+          item.ingredients || []
+        ))
+        
+        setItems(menuItems)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load menu')
+        console.error('Error fetching menu items:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchMenuItems()
   }, [])
+
+  if (loading) {
+    return (
+      <div className="menu-page">
+        <div className="menu-header">
+          <h1>Our Menu</h1>
+        </div>
+        <div style={{ textAlign: 'center', padding: '2rem' }}>
+          <p>Loading menu items...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="menu-page">
+        <div className="menu-header">
+          <h1>Our Menu</h1>
+        </div>
+        <div style={{ textAlign: 'center', padding: '2rem', color: 'red' }}>
+          <p>Error: {error}</p>
+          <button onClick={() => window.location.reload()}>Retry</button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="menu-page">
-      <div className="menu-header">
-        <h1>Our Menu</h1>
+      <div className="dashboard-header">
+        <div className="header-content">
+          <h1>Our Menu</h1>
+          <p>Discover our delicious selection of dishes</p>
+        </div>
       </div>
       
       <div className="menu-grid">
         {items.map((item) => (
-          <div key={item.id} className="menu-item">
-            <img src={item.imageUrl} alt={item.name} />
-            <span className="category">{item.category}</span>
-            <h2>{item.name}</h2>
-            <p>{item.description}</p>
-            <div className="price">${item.price.toFixed(2)}</div>
-            
-            {item.ingredients && item.ingredients.length > 0 && (
-              <div className="ingredients">
-                <h4>Ingredients</h4>
-                <ul>
-                  {item.ingredients.map((ingredient, index) => (
-                    <li key={index}>{ingredient}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
+          <div key={item.id} className="order-card menu-item">
+            {/* <img src={item.imageUrl} alt={item.name} /> */}
+            <div className="item-info">
+              <span className="category-badge">{item.category}</span>
+              <h3>{item.name}</h3>
+              <p className="description">{item.description}</p>
+              <div className="price">€{item.price.toFixed(2)}</div>
+              
+              {item.ingredients && item.ingredients.length > 0 && (
+                <div className="ingredients">
+                  <small>Ingredients: {item.ingredients.join(', ')}</small>
+                </div>
+              )}
+            </div>
           </div>
         ))}
       </div>
