@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import '../services/tabs.css';
+import { PlateIcon } from '../components/Icons';
 
 export default function About() {
   const navigate = useNavigate();
@@ -7,7 +8,7 @@ export default function About() {
   return (
     <div className="tabs-container">
       <header className="header1">
-        <h2>🍽️</h2>
+        <h2><PlateIcon size={32} /></h2>
       </header>
       
       <div className="about-content">

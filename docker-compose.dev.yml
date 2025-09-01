@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: foodies-postgres-dev
+    environment:
+      POSTGRES_DB: foodies
+      POSTGRES_USER: foodies_user
+      POSTGRES_PASSWORD: foodies_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    networks:
+      - foodies-dev-network
+
+  backend:
+    build: 
+      context: ./Backend
+      dockerfile: Dockerfile
+    container_name: foodies-backend-dev
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/foodies
+      - SPRING_DATASOURCE_USERNAME=foodies_user
+      - SPRING_DATASOURCE_PASSWORD=foodies_pass
+    depends_on:
+      - postgres
+    volumes:
+      - backend_dev_uploads:/app/uploads
+      - backend_dev_qrcodes:/app/qr-codes
+      - ./Backend/src:/app/src # Live reload for development
+    networks:
+      - foodies-dev-network
+
+volumes:
+  postgres_dev_data:
+  backend_dev_uploads:
+  backend_dev_qrcodes:
+
+networks:
+  foodies-dev-network:
+    driver: bridge
