@@ -1,128 +1,156 @@
-html, body, #root {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
+/* Create QR For Business - Apple-inspired minimal design */
 
-.qr-container {
-  display: flex;
-  flex-direction: column;
+.qr-create-page {
+  padding: var(--spacing-lg);
+  background-color: var(--background-gray);
   min-height: 100vh;
 }
 
-.qr-content {
-  flex: 1;
+/* Dashboard Header */
+.dashboard-header {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 100px;
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--border-light);
 }
 
-.qr-content p {
-  font-size: 1.1rem;
-  color: var(--text-dark);
-  margin-bottom: var(--spacing-lg);
-  line-height: 1.6;
+.header-content h1 {
+  margin: 0 0 var(--spacing-xs) 0;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.002em;
 }
 
-.CreateQr-form {
+.header-content p {
+  margin: 0;
+  font-size: 17px;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.header-actions {
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-md);
   align-items: center;
-  background: var(--primary-white);
-  padding: var(--spacing-2xl);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--border-light);
-  min-width: 400px;
+}
+
+.refresh-btn {
+  font-size: 15px;
+  padding: 8px 16px;
+  min-height: 36px;
+}
+
+/* Form Container */
+.form-container {
   max-width: 500px;
-  width: 100%;
-  margin-top: var(--spacing-xl);
+  margin: 0 auto;
 }
 
-.CreateQr-form h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--primary-black);
-  margin-bottom: var(--spacing-md);
+/* Form Styling */
+.CreateQr-form {
+  background: var(--primary-white);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
 }
 
-.CreateQr-form .form-group {
-  width: 100%;
-  text-align: left;
+.form-group {
+  margin-bottom: var(--spacing-lg);
 }
 
 .CreateQr-form label {
   display: block;
   font-weight: 600;
-  color: var(--text-dark);
+  color: var(--text-primary);
   margin-bottom: var(--spacing-sm);
-  font-size: 0.95rem;
+  font-size: 15px;
 }
 
 .CreateQr-form input {
   width: 100%;
-  padding: var(--spacing-md) var(--spacing-lg);
-  border: 2px solid var(--border-light);
+  padding: var(--spacing-md);
+  border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
-  font-size: 1rem;
+  font-size: 15px;
   background: var(--primary-white);
-  color: var(--text-dark);
-  margin-bottom: var(--spacing-md);
-  transition: all var(--transition-normal);
+  color: var(--text-primary);
+  transition: all var(--transition-standard);
   font-family: inherit;
+  box-sizing: border-box;
 }
 
 .CreateQr-form input:focus {
   outline: none;
   border-color: var(--primary-orange);
-  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
 }
 
 .CreateQr-form input::placeholder {
-  color: var(--text-light);
+  color: var(--text-secondary);
 }
 
-.CreateQr-form button {
+.submit-button {
   width: 100%;
-  margin-top: var(--spacing-lg);
+  margin-top: var(--spacing-xl);
   background: var(--primary-orange);
   color: var(--primary-white);
   border: none;
   border-radius: var(--radius-md);
-  padding: var(--spacing-md) var(--spacing-xl);
-  font-size: 1.1rem;
-  font-weight: 600;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 500;
   cursor: pointer;
-  transition: all var(--transition-normal);
+  transition: all var(--transition-standard);
 }
 
-.CreateQr-form button:hover {
+.submit-button:hover:not(:disabled) {
   background: var(--primary-orange-hover);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
 }
 
-.CreateQr-form button:active {
-  transform: translateY(0);
+.submit-button:disabled {
+  background: var(--text-light);
+  cursor: not-allowed;
 }
 
-@media screen { 
-  @media (max-width: 768px) {
-    .qr-content {
-      padding: var(--spacing-lg);
-    }
-    .CreateQr-form {
-      padding: var(--spacing-xl);
-    }
+.submit-button:active {
+  transform: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .qr-create-page {
+    padding: var(--spacing-md);
   }
   
+  .dashboard-header {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    align-items: stretch;
+  }
+  
+  .form-container {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-content h1 {
+    font-size: 28px;
+  }
+  
+  .CreateQr-form {
+    padding: var(--spacing-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .CreateQr-form {
+    padding: var(--spacing-md);
+  }
 }
 
 

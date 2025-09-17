@@ -1,64 +1,126 @@
 import { useNavigate } from 'react-router-dom';
-import '../services/tabs.css';
+import '../services/LoginSignup.css';
+import { useState } from 'react';
+import { useSnackbar } from '../components/SnackbarContext';
+
+interface LoginProps {
+  email: string;
+  password: string;
+}
+
+
 
 export default function Login() {
   const navigate = useNavigate();
+  const { showError } = useSnackbar();
   
-  const handleSubmit = (e: React.FormEvent) => {
+const [LoginProps,  setLoginProps] = useState<LoginProps>({
+  email: '',
+  password: ''
+});
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login submitted');
+    
+    try {
+      const response = await fetch('http://localhost:8080/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+          email: LoginProps.email, 
+          password: LoginProps.password 
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        
+        // Store authentication data
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('authToken', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        
+        console.log('Login successful:', data.user);
+        navigate('/');
+      } else {
+        const errorText = await response.text();
+        showError('Login failed. Please check your credentials.');
+        console.error('Login failed:', errorText);
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      showError('Network error. Please try again.');
+    }
   };
   
   return (
-    <div className="tabs-container">
-      <header className="header1">
-        <h2>🔐</h2>
-      </header>
-      
-      <div className="login-content">
-        <form className="login-form" onSubmit={handleSubmit}>
-          <h2>Welcome Back</h2>
-          <p>Sign in to your account</p>
+    <div className="auth-container">
+      <div className="auth-card">
+        <div className="auth-header">
+          <div className="auth-logo">FOODIES</div>
+          <h1 className="auth-title">Welcome Back</h1>
+          <p className="auth-subtitle">Sign in to your account</p>
+        </div>
+        
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="email" className="form-label">Email</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              className="form-input"
+              placeholder="Enter your email"
+              required 
+              value={LoginProps.email}
+              onChange={(e) => setLoginProps({ ...LoginProps, email: e.target.value })}
+            />
+          </div>
           
-          <label htmlFor="email">Email</label>
-          <input 
-            type="email" 
-            id="email" 
-            name="email" 
-            placeholder="Enter your email"
-            required 
-          />
+          <div className="form-group">
+            <label htmlFor="password" className="form-label">Password</label>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              className="form-input"
+              placeholder="Enter your password"
+              required 
+              value={LoginProps.password}
+              onChange={ (e) => setLoginProps({ ...LoginProps, password: e.target.value }) }
+            />
+          </div>
           
-          <label htmlFor="password">Password</label>
-          <input 
-            type="password" 
-            id="password" 
-            name="password" 
-            placeholder="Enter your password"
-            required 
-          />
-          
-          <button type="submit" style={{ width: '100%', marginTop: 'var(--spacing-lg)' }}>
+          <button type="submit" className="auth-button primary">
             Sign In
-          </button>
+          </button> 
         </form>
         
-        <p style={{ marginTop: 'var(--spacing-lg)', textAlign: 'center' }}>
+        <div className="auth-links">
           Don't have an account?{' '}
           <button 
-            className="secondary" 
+            type="button"
+            className="auth-link" 
             onClick={() => navigate('/loginsignup/signup')}
-            style={{ background: 'none', border: 'none', padding: 0, color: 'var(--primary-orange)', textDecoration: 'underline', cursor: 'pointer' }}
+            style={{ background: 'none', border: 'none', padding: 0, font: 'inherit' }}
           >
             Sign Up
           </button>
-        </p>
+        </div>
+        
+        <div className="auth-links">
+          <button 
+            type="button"
+            className="auth-link" 
+            onClick={() => navigate('/loginsignup')}
+            style={{ background: 'none', border: 'none', padding: 0, font: 'inherit' }}
+          >
+            ← Back to Home
+          </button>
+        </div>
       </div>
-      
-      <button className="back-button" onClick={() => navigate('/loginsignup')}>
-        Back
-      </button>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from '../components/SnackbarContext';
 import '../services/MenuDataEntry.css';
 
 interface MenuItem {
@@ -12,6 +13,7 @@ interface MenuItem {
 
 export default function MenuDataEntry() {
   const navigate = useNavigate();
+  const { showSuccess, showError, showWarning } = useSnackbar();
   const [menuItem, setMenuItem] = useState<MenuItem>({
     name: '',
     description: '',
@@ -60,7 +62,7 @@ export default function MenuDataEntry() {
       console.log("Form submitted", menuItem);
     // Validate form
   if (!menuItem.name || !menuItem.description || !menuItem.price || Number(menuItem.price) <= 0 || !menuItem.category) {
-  alert('Please fill in all required fields');
+  showWarning('Please fill in all required fields');
   return;
 }
 
@@ -74,32 +76,43 @@ export default function MenuDataEntry() {
     }
 
     // Try to send the data to the backend
-    try{
-      //send to backend
-      const response = await fetch('http://localhost:3001/menu-items', {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const headers: HeadersInit = {};
+      
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+      }
+
+      const response = await fetch('http://localhost:8080/api/menu-items', {
         method: 'POST',
+        headers: headers,
         body: formData
       });
-      if(response.ok){
+      
+      if (response.ok) {
         const data = await response.json();
+        console.log('Menu item created:', data);
+        showSuccess('Menu item added successfully!');
         
-        alert('Menu item added successfully!');
-            // Reset form
-    setMenuItem({
-      name: '',
-      description: '',
-      price: 0,
-      category: '',
-      photo: null
-    });
-    setPreviewUrl('');
-  }else{
-        throw new Error('Failed to add menu item');
+        // Reset form
+        setMenuItem({
+          name: '',
+          description: '',
+          price: 0,
+          category: '',
+          photo: null
+        });
+        setPreviewUrl('');
+      } else {
+        const errorText = await response.text();
+        console.error('Failed to add menu item:', errorText);
+        showError('Failed to add menu item. Please check your permissions and try again.');
       }
-    }catch(error){
-        console.error('Error adding menu item:', error);
-        alert('There was an error adding the menu item. Please try again.');
-      }
+    } catch (error) {
+      console.error('Error adding menu item:', error);
+      showError('Network error. Please try again.');
+    }
   };
 
 const handleReset = () => {
@@ -114,12 +127,23 @@ const handleReset = () => {
   };
 
   return (
-    <div className="menu-entry-container">
-    
-      <div className="menu-entry-content">
-        <h2>Add New Menu Item</h2>
-        <p>Fill out the form below to add a new item to your restaurant's menu.</p>
-        
+    <div className="menu-entry-page">
+      <div className="dashboard-header">
+        <div className="header-content">
+          <h1>Add New Menu Item</h1>
+          <p>Fill out the form below to add a new item to your restaurant's menu</p>
+        </div>
+        <div className="header-actions">
+          <button 
+            className="refresh-btn secondary"
+            onClick={() => navigate(-1)}
+          >
+            ← Back
+          </button>
+        </div>
+      </div>
+
+      <div className="form-container">
         <form className="menu-entry-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="name">Item Name *</label>
@@ -194,7 +218,7 @@ const handleReset = () => {
             />
             {previewUrl && (
               <div className="photo-preview">
-                <img src={previewUrl} alt="Preview" />
+                {/* <img src={previewUrl} alt="Preview" /> */}
               </div>
             )}
           </div>
@@ -209,10 +233,6 @@ const handleReset = () => {
           </div>
         </form>
       </div>
-      
-      <button className="back-button" onClick={() => navigate('/')}>
-        Back
-      </button>
     </div>
   );
   }
