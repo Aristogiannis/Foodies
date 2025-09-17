@@ -1,8 +1,8 @@
 # Use the official OpenJDK 17 image
 FROM openjdk:17-jdk-slim
 
-# Install curl for downloading gradle wrapper
-RUN apt-get update && apt-get install -y curl && apt-get clean
+# Install curl and dos2unix for downloading gradle wrapper and fixing line endings
+RUN apt-get update && apt-get install -y curl dos2unix && apt-get clean
 
 # Set working directory
 WORKDIR /app
@@ -19,8 +19,8 @@ RUN if [ ! -f "gradle/wrapper/gradle-wrapper.jar" ]; then \
         https://github.com/gradle/gradle/raw/v8.5.0/gradle/wrapper/gradle-wrapper.jar; \
     fi
 
-# Make gradlew executable
-RUN chmod +x ./gradlew
+# Convert line endings and make gradlew executable
+RUN dos2unix ./gradlew && chmod +x ./gradlew
 
 # Copy source code
 COPY src src
